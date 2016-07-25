@@ -53,11 +53,20 @@ def extract_price(input):
     price_clean = float(price.text.strip('$'))
     return price_clean
 
+#clean and parse price as float
+def extract_title(input):
+    title = input.find('a', {'class': 'hdrlnk'})
+    title_text = title.text
+    return title_text
+
+
 this_size,this_n_brs = extract_size_and_brs(size)
 this_time = extract_time(one_apt)
 this_price = extract_price(one_apt)
+this_title = extract_title(one_apt)
 
 print(this_size)
 print(this_n_brs)
 print(this_time)
 print(this_price)
+print(this_title)
