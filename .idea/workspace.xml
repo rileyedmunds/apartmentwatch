@@ -39,8 +39,8 @@
       <file leaf-file-name="scrapermany.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/scrapermany.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-450">
-              <caret line="22" column="29" selection-start-line="22" selection-start-column="29" selection-end-line="22" selection-end-column="29" />
+            <state relative-caret-position="-660">
+              <caret line="8" column="42" selection-start-line="8" selection-start-column="42" selection-end-line="8" selection-end-column="42" />
               <folding>
                 <element signature="e#0#19#0" expanded="true" />
               </folding>
@@ -373,7 +373,14 @@
       <option name="project" value="LOCAL" />
       <updated>1469550100019</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="working v1.0 (fixed dataframe with dict)">
+      <created>1469565852824</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1469565852824</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -409,7 +416,8 @@
     <MESSAGE value="title added" />
     <MESSAGE value="parsing data from each, still need to parallelize, introduce dataframe, and parametrize, then refactor" />
     <MESSAGE value="datframe shape roadbump" />
-    <option name="LAST_COMMIT_MESSAGE" value="datframe shape roadbump" />
+    <MESSAGE value="working v1.0 (fixed dataframe with dict)" />
+    <option name="LAST_COMMIT_MESSAGE" value="working v1.0 (fixed dataframe with dict)" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -445,8 +453,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/scrapermany.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-450">
-          <caret line="22" column="29" selection-start-line="22" selection-start-column="29" selection-end-line="22" selection-end-column="29" />
+        <state relative-caret-position="-660">
+          <caret line="8" column="42" selection-start-line="8" selection-start-column="42" selection-end-line="8" selection-end-column="42" />
           <folding>
             <element signature="e#0#19#0" expanded="true" />
           </folding>
