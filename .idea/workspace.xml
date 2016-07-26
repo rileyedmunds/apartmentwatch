@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="e7b691b1-9d41-4fb5-bc60-7cf328a92549" name="Default" comment="working v1.3 (updated READ.me)">
-      <change type="DELETED" beforePath="$PROJECT_DIR$/auto_run.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/scrapermany.py" afterPath="" />
+    <list default="true" id="e7b691b1-9d41-4fb5-bc60-7cf328a92549" name="Default" comment="">
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/run.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/testscraper.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/scraper.py" afterPath="$PROJECT_DIR$/scraper.py" />
     </list>
     <ignored path="craigslist.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -496,7 +495,14 @@
       <option name="project" value="LOCAL" />
       <updated>1469571918817</updated>
     </task>
-    <option name="localTasksCounter" value="15" />
+    <task id="LOCAL-00015" summary="working v1.4 (refactor)">
+      <created>1469572389416</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1469572389416</updated>
+    </task>
+    <option name="localTasksCounter" value="16" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -547,7 +553,8 @@
     <MESSAGE value="working v1.2.1 (updates: texting protocol set up, and importing keys from file(security))" />
     <MESSAGE value="working v1.3 (twilio integration successful)" />
     <MESSAGE value="working v1.3 (updated READ.me)" />
-    <option name="LAST_COMMIT_MESSAGE" value="working v1.3 (updated READ.me)" />
+    <MESSAGE value="working v1.4 (refactor)" />
+    <option name="LAST_COMMIT_MESSAGE" value="working v1.4 (refactor)" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
