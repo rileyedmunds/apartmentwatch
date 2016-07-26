@@ -1,13 +1,9 @@
-import pandas as pd
-import pylab
 import requests
 import numpy as np
 from bs4 import BeautifulSoup as bs4
 import string
 import time
 from twilio.rest import TwilioRestClient
-import matplotlib as plt
-
 
 # ----------------vital functions------------------------
 
@@ -61,13 +57,13 @@ while True:
             send_list.append(name + '  -  ' + base_url + link)
             print(name + base_url + link)
 
-    # Flush the cache if we've found new entries
+    # send message, then flush cache
     if len(link_list_send) > 0:
-        print('Sending mail!')
+        print('Sending text!')
         msg = '\n'.join(send_list)
-        m = email.message.Message()
-        m.set_payload(msg)
-        gm.send(m, ['recipient_email@mydomain.com'])
+        send_message(msg)
+
+        #flush cache
         link_list += link_list_send
         link_list_send = []
         send_list = []
