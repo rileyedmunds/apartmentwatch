@@ -4,6 +4,7 @@ import requests
 import numpy as np
 from bs4 import BeautifulSoup as bs4
 import string
+import time
 import matplotlib as plt
 
 
@@ -75,6 +76,9 @@ def save_to_file(data):
         lambda a: ''.join([i for i in a if i in charset]))
 
     results.to_csv('data/craigslist_results.csv')
+
+
+# def text_updates:
 #----------------------------------------
 
 
@@ -87,6 +91,7 @@ for i in search_indices:
     url = 'https://chicago.craigslist.org/search/wcl/apa'
     resp = requests.get(url, params={'bedrooms': 1, 's': i})
     txt = bs4(resp.text, 'html.parser')
+    print(resp.url)
     apts = txt.findAll(attrs={'class': "row"})
     print(apts)
 
@@ -126,6 +131,8 @@ results = pd.concat(results, axis=0)
 #fixing types of the numerical columns:
 results[['price', 'size', 'brs']] = results[['price', 'size', 'brs']].convert_objects(convert_numeric=True)
 save_to_file(results)
+
+
 
 
 
