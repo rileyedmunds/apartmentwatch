@@ -3,6 +3,11 @@ import pylab
 import requests
 import numpy as np
 from bs4 import BeautifulSoup as bs4
+import string
+import matplotlib as plt
+
+
+#-------------vital functions-------------
 
 # cleaning and parsing size and bedrooms, dealing with case where one is missing
 def extract_size_and_brs(size):
@@ -49,6 +54,28 @@ def extract_title(input):
     title = input.find('a', {'class': 'hdrlnk'})
     title_text = title.text
     return title_text
+
+#-----------Non-vital functions----------
+
+#plots histogram of prices.
+    #NOTE: will only work with matplotlib inline (IPython notebook)
+def draw_hist(data):
+    e = results.hist('price', bins=np.arange(0, 10000, 100))[0, 0]
+    ax.set_title('price vs count', fontsize = 30)
+    ax.set_xlabel('Price', fontsize=15)
+    ax.set_ylabel('Count', fontsize=15)
+
+#saves file as CSV:
+def save_to_file(data):
+    # cleaning extraneous characters out:
+    charset = string.ascii_letters + \
+                ''.join([str(i) for i in range(10)]) + \
+                ' /\.'
+    results['title'] = results['title'].apply(
+        lambda a: ''.join([i for i in a if i in charset]))
+
+    results.to_csv('data/craigslist_results.csv')
+#----------------------------------------
 
 
 #storing outcomes here
@@ -98,4 +125,7 @@ results = pd.concat(results, axis=0)
 
 #fixing types of the numerical columns:
 results[['price', 'size', 'brs']] = results[['price', 'size', 'brs']].convert_objects(convert_numeric=True)
+save_to_file(results)
+
+
 
