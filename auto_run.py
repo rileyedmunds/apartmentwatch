@@ -5,7 +5,7 @@ import string
 import time
 from twilio.rest import TwilioRestClient
 
-# ----------------vital functions------------------------
+# ----------------------messaging----------------------------
 
 #sending message with specified body
 def send_message(message_content):
@@ -37,7 +37,7 @@ send_list = []  # what will actually be sent
 #avoid all output from the first run:
 first_run = True
 
-# Careful with this...too many queries == your IP gets banned temporarily
+# note: too many queries => IP banned
 while True:
     resp = requests.get(url)
     txt = bs4(resp.text, 'html.parser')
@@ -71,3 +71,6 @@ while True:
     # sleeping so craigslist doesn't ban my IP
     sleep_duration = np.random.randint(5, 10) #60 to 120 seconds
     time.sleep(sleep_duration)
+
+    if (first_run):
+        first_run = False
