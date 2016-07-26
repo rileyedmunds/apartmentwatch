@@ -5,20 +5,19 @@ import numpy as np
 from bs4 import BeautifulSoup as bs4
 
 # clean and parse size and bedrooms, dealing with case where one is missing
-def extract_size_and_brs(input):
-    size = input.findAll(attrs={'class': 'housing'})[0].text
-    reduced = size.strip('/- ').split(' - ')
-    if len(reduced) == 2:
-        n_brs = reduced[0].replace('br', '')
-        this_size = reduced[1].replace('ft2', '')
-    elif 'br' in reduced[0]:
-        # there's no footage
-        n_brs = reduced[0].replace('br', '')
+def extract_size_and_brs(size):
+    split = size.strip('/- ').split(' - ')
+    if len(split) == 2:
+        n_brs = split[0].replace('br', '')
+        this_size = split[1].replace('ft2', '')
+    elif 'br' in split[0]:
+        # It's the n_bedrooms
+        n_brs = split[0].replace('br', '')
         this_size = np.nan
-    elif 'ft2' in reduced[0]:
-        # there's no bedrooms
+    elif 'ft2' in split[0]:
+        # It's the size
+        this_size = split[0].replace('ft2', '')
         n_brs = np.nan
-        this_size = reduced[0].replace('ft2', '')
     return float(this_size), float(n_brs)
 
 #clean parse time as datetime
@@ -42,7 +41,7 @@ def find_prices(inputs):
             price = float(price.text.strip('$'))
         else:
             price = np.nan
-            prices.append(price)
+        prices.append(price)
     return prices
 
 #clean and parse price as float
@@ -52,53 +51,51 @@ def extract_title(input):
     return title_text
 
 
-
+# store outcomes in results
 results = []
 
-search_indices = np.arange(0, 300, 300)
-# search_indices = range(7)
+#Note to not request too often => IP ban from Craigslist
+search_indices = np.arange(5, 300, 300)
 for i in search_indices:
-    # define page to scrape:
-    url_short = 'https://chicago.craigslist.org/search/{0}/apa'.format('wcl')
-    parameters = {'bedrooms' : 1, 's': i}
-    get = requests.get(url_short, params=parameters)
-    html = bs4(get.text, 'html.parser')
-    apts = html.find_all('p', attrs={'class': 'row'})
+    url = 'https://chicago.craigslist.org/search/wcl/apa'
+    resp = requests.get(url, params={'bedrooms': 1, 's': i})
+    txt = bs4(resp.text, 'html.parser')
+    apts = txt.findAll(attrs={'class': "row"})
+    print(apts)
 
-    #Calculations will run across all entries for each category.
+    # Find the size of all listings
+    size_text = [rw.findAll(attrs={'class': 'housing'})[0].text
+                 for rw in apts]
+    print(size_text)
 
-    #size:
-    sizes_and_brs = [extract_size_and_brs(txt) for txt in apts]
-    sizes, n_brs = zip(*sizes_and_brs)
-    sizes, n_brs = list(sizes), list(n_brs)
+    sizes_brs = [extract_size_and_brs(stxt) for stxt in size_text]
+    print(sizes_brs)
+    sizes, n_brs = zip(*sizes_brs)  # This unzips into 2 vectors
 
-    #titles
-    title = [extract_title(a) for a in apts]
-    #links
-    links = [a.find('a', attrs={'class': 'hdrlnk'})['href'] for a in apts]
-    #time
-    time = [extract_time(a) for a in apts]
-    #price
-    prices = find_prices(apts)
+    # Find the title and link
+    title = [rw.find('a', attrs={'class': 'hdrlnk'}).text
+             for rw in apts]
+    links = [rw.find('a', attrs={'class': 'hdrlnk'})['href']
+             for rw in apts]
 
+    # Find the time
+    time = [pd.to_datetime(rw.find('time')['datetime']) for rw in apts]
+    price = find_prices(apts)
 
-    #ceate DataFrame to store ouput:
-    print(type(time))
-    print(type(prices))
-    print(type(sizes))
-    print(type(n_brs))
-    print(type(title))
-    print(type(links))
-    
-    data = np.array([time, prices, list(sizes), list(n_brs), title, links])
-    column_names = ['time', 'price', 'size', 'brs', 'title', 'link']
-    # print(data.T)
-    df = pd.DataFrame(data=data.T, index='time', columns=column_names)
-    # df = df.set_index('time')
-    #append result to dataframe
+    # populating the dataframe from a dictionary
+    data = {'time' : time, 'price': price,
+            'size' : list(sizes), 'brs': n_brs,
+            'title': title, 'links': links}
+    df = pd.DataFrame(data)
+    df = df.set_index('time')
+
+    #add the newly created dataframe to the results
     results.append(df)
+    print(df.head())
 
-
+# Finally, concatenate all the results
 results = pd.concat(results, axis=0)
-# results[['price', 'size', 'brs']] = results[['price', 'size', 'brs']].convert_objects(convert_numeric=True)
-print(results[:7])
+
+#fix types of the numerical columns:
+results[['price', 'size', 'brs']] = results[['price', 'size', 'brs']].convert_objects(convert_numeric=True)
+
