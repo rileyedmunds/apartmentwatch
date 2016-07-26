@@ -22,11 +22,10 @@ apts = html.find_all('p', attrs={'class': 'row'})
 #note: bs4 prettify prints cleanly as XML with each tag on its own line:
 one_apt = apts[15]
 # print(one_apt.prettify())
-# size = one_apt.findAll(attrs={'class': 'housing'})[0].text
-size = one_apt.findAll(attrs={'class' : 'housing'})[0].text
 
 #clean and parse size and bedrooms, dealing with case where one is missing
-def extract_size_and_brs(size):
+def extract_size_and_brs(input):
+    size = input.findAll(attrs={'class': 'housing'})[0].text
     reduced = size.strip('/- ').split(' - ')
     if len(reduced) == 2:
         n_brs = reduced[0].replace('br', '')
@@ -60,13 +59,22 @@ def extract_title(input):
     return title_text
 
 
-this_size,this_n_brs = extract_size_and_brs(size)
+this_size,this_n_brs = extract_size_and_brs(one_apt)
 this_time = extract_time(one_apt)
 this_price = extract_price(one_apt)
 this_title = extract_title(one_apt)
 
-print(this_size)
-print(this_n_brs)
-print(this_time)
-print(this_price)
-print(this_title)
+for i in range(4):
+    curr_apt = apts[i]
+    curr_size, curr_n_brs = extract_size_and_brs(curr_apt)
+    curr_time = extract_time(curr_apt)
+    curr_price = extract_price(curr_apt)
+    curr_title = extract_title(curr_apt)
+
+    print(curr_size)
+    print(curr_n_brs)
+    print(curr_time)
+    print(curr_price)
+    print(curr_title)
+    print('\n')
+
